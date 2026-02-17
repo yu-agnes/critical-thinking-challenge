@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Challenge Myself v3 - Critical Thinking with AI</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #f8f9fa;
+      --surface: #ffffff;
+      --text: #1a1a2e;
+      --text-secondary: #6b7280;
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --challenge: #dc2626;
+      --challenge-hover: #b91c1c;
+      --challenge-bg: #fef2f2;
+      --challenge-border: #fecaca;
+      --ai-bg: #f0f0ff;
+      --border: #e5e7eb;
+      --radius: 12px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      width: 36px;
+      height: 36px;
+      background: var(--primary);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    header h1 {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    header h1 span {
+      color: var(--text-secondary);
+      font-weight: 400;
+      font-size: 14px;
+      margin-left: 8px;
+    }
+
+    .api-key-section {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .api-key-section label {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .api-key-section input {
+      padding: 6px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px;
+      width: 260px;
+      font-family: monospace;
+    }
+
+    .api-key-section input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+
+    .chat-container {
+      flex: 1;
+      max-width: 760px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      overflow-y: auto;
+    }
+
+    .welcome {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--text-secondary);
+    }
+
+    .welcome h2 {
+      font-size: 22px;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .welcome p {
+      font-size: 15px;
+      line-height: 1.6;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .message-group {
+      margin-bottom: 24px;
+    }
+
+    .message {
+      padding: 14px 18px;
+      border-radius: var(--radius);
+      line-height: 1.65;
+      font-size: 15px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .message-user {
+      background: var(--primary);
+      color: white;
+      align-self: flex-end;
+      margin-left: auto;
+      max-width: 85%;
+      width: fit-content;
+      margin-bottom: 12px;
+    }
+
+    .message-ai {
+      background: var(--ai-bg);
+      border: 1px solid var(--border);
+      max-width: 100%;
+    }
+
+    .message-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+      color: var(--text-secondary);
+    }
+
+    .challenge-btn-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 12px;
+    }
+
+    .challenge-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: white;
+      color: var(--challenge);
+      border: 2px solid var(--challenge);
+      border-radius: 24px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .challenge-btn:hover {
+      background: var(--challenge);
+      color: white;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+    }
+
+    .challenge-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .challenge-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .message-critique {
+      background: var(--challenge-bg);
+      border: 1px solid var(--challenge-border);
+      margin-top: 12px;
+      max-width: 100%;
+    }
+
+    .message-critique .message-label {
+      color: var(--challenge);
+    }
+
+    .input-area {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 16px;
+    }
+
+    .input-wrapper {
+      max-width: 760px;
+      margin: 0 auto;
+      display: flex;
+      gap: 10px;
+    }
+
+    .input-wrapper textarea {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 15px;
+      font-family: inherit;
+      resize: none;
+      min-height: 48px;
+      max-height: 120px;
+      line-height: 1.5;
+    }
+
+    .input-wrapper textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+
+    .send-btn {
+      padding: 12px 24px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+
+    .send-btn:hover { background: var(--primary-hover); }
+    .send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .typing-indicator {
+      display: inline-flex;
+      gap: 4px;
+      padding: 8px 0;
+    }
+
+    .typing-indicator span {
+      width: 8px;
+      height: 8px;
+      background: var(--text-secondary);
+      border-radius: 50%;
+      animation: bounce 1.4s infinite ease-in-out;
+    }
+
+    .typing-indicator span:nth-child(1) { animation-delay: 0s; }
+    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0); opacity: 0.4; }
+      40% { transform: scale(1); opacity: 1; }
+    }
+
+    .model-select {
+      padding: 6px 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px;
+      background: white;
+    }
+
+    .model-select:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <div class="logo">?</div>
+    <h1>Challenge Myself <span>v3 — Mentor Critique</span></h1>
+  </div>
+  <div class="api-key-section">
+    <label for="model-select">Model:</label>
+    <select id="model-select" class="model-select">
+      <option value="gpt-4o-mini">GPT-4o Mini</option>
+      <option value="gpt-4o">GPT-4o</option>
+      <option value="gpt-4-turbo">GPT-4 Turbo</option>
+    </select>
+    <label for="api-key">OpenAI Key:</label>
+    <input type="password" id="api-key" placeholder="sk-..." autocomplete="off">
+  </div>
+</header>
+
+<div class="chat-container" id="chat">
+  <div class="welcome" id="welcome">
+    <h2>Ask a question, then challenge the answer.</h2>
+    <p>
+      Start by asking the AI any question. After it responds, click
+      <strong>"Challenge Myself"</strong> to see the AI critique its own answer
+      &mdash; revealing potential flaws, biases, and missing perspectives.
+    </p>
+  </div>
+</div>
+
+<div class="input-area">
+  <div class="input-wrapper">
+    <textarea
+      id="user-input"
+      placeholder="Ask a question..."
+      rows="1"
+      autofocus
+    ></textarea>
+    <button class="send-btn" id="send-btn" onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<script>
+const chatEl = document.getElementById('chat');
+const inputEl = document.getElementById('user-input');
+const sendBtn = document.getElementById('send-btn');
+const apiKeyEl = document.getElementById('api-key');
+const modelSelect = document.getElementById('model-select');
+const welcomeEl = document.getElementById('welcome');
+
+// Conversation history for OpenAI API
+let conversationHistory = [];
+let isLoading = false;
+
+// Auto-resize textarea
+inputEl.addEventListener('input', () => {
+  inputEl.style.height = 'auto';
+  inputEl.style.height = Math.min(inputEl.scrollHeight, 120) + 'px';
+});
+
+// Enter to send (Shift+Enter for newline)
+inputEl.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});
+
+// Persist API key in sessionStorage
+apiKeyEl.value = sessionStorage.getItem('oai_key') || '';
+apiKeyEl.addEventListener('input', () => {
+  sessionStorage.setItem('oai_key', apiKeyEl.value);
+});
+
+async function callOpenAI(messages) {
+  const key = apiKeyEl.value.trim();
+  if (!key) {
+    alert('Please enter your OpenAI API key in the header.');
+    throw new Error('No API key');
+  }
+
+  const model = modelSelect.value;
+
+  const res = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${key}`
+    },
+    body: JSON.stringify({
+      model,
+      messages,
+      temperature: 0.7,
+      max_tokens: 1024
+    })
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error?.message || `API error: ${res.status}`);
+  }
+
+  const data = await res.json();
+  return data.choices[0].message.content;
+}
+
+function createTypingIndicator() {
+  const div = document.createElement('div');
+  div.className = 'typing-indicator';
+  div.innerHTML = '<span></span><span></span><span></span>';
+  return div;
+}
+
+function scrollToBottom() {
+  chatEl.scrollTop = chatEl.scrollHeight;
+}
+
+async function sendMessage() {
+  if (isLoading) return;
+  const text = inputEl.value.trim();
+  if (!text) return;
+
+  if (welcomeEl) welcomeEl.remove();
+
+  isLoading = true;
+  sendBtn.disabled = true;
+  inputEl.value = '';
+  inputEl.style.height = 'auto';
+
+  // Create message group
+  const group = document.createElement('div');
+  group.className = 'message-group';
+
+  // User message
+  const userMsg = document.createElement('div');
+  userMsg.className = 'message message-user';
+  userMsg.textContent = text;
+  group.appendChild(userMsg);
+
+  // AI response area
+  const aiLabel = document.createElement('div');
+  aiLabel.className = 'message-label';
+  aiLabel.textContent = 'AI Response';
+
+  const aiMsg = document.createElement('div');
+  aiMsg.className = 'message message-ai';
+  aiMsg.appendChild(aiLabel);
+  const aiContent = document.createElement('div');
+  aiMsg.appendChild(aiContent);
+  group.appendChild(aiMsg);
+
+  chatEl.appendChild(group);
+
+  // Show typing indicator
+  const typing = createTypingIndicator();
+  aiContent.appendChild(typing);
+  scrollToBottom();
+
+  // Build messages for API
+  conversationHistory.push({ role: 'user', content: text });
+
+  try {
+    const systemMsg = {
+      role: 'system',
+      content: 'You are a helpful, knowledgeable AI assistant. Provide clear, well-reasoned answers. Be informative but concise.'
+    };
+
+    const aiResponse = await callOpenAI([systemMsg, ...conversationHistory]);
+
+    typing.remove();
+    aiContent.textContent = aiResponse;
+    conversationHistory.push({ role: 'assistant', content: aiResponse });
+
+    // Add Challenge button
+    const btnContainer = document.createElement('div');
+    btnContainer.className = 'challenge-btn-container';
+
+    const challengeBtn = document.createElement('button');
+    challengeBtn.className = 'challenge-btn';
+    challengeBtn.innerHTML = `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      Challenge Myself
+    `;
+    challengeBtn.onclick = () => handleChallenge(group, aiResponse, text, challengeBtn);
+    btnContainer.appendChild(challengeBtn);
+    group.appendChild(btnContainer);
+
+  } catch (err) {
+    typing.remove();
+    aiContent.textContent = `Error: ${err.message}`;
+    aiContent.style.color = 'var(--challenge)';
+  }
+
+  isLoading = false;
+  sendBtn.disabled = false;
+  inputEl.focus();
+  scrollToBottom();
+}
+
+async function handleChallenge(group, aiResponse, originalQuestion, btn) {
+  if (isLoading) return;
+  isLoading = true;
+  btn.disabled = true;
+  btn.textContent = 'Generating critique...';
+
+  // Create critique message
+  const critiqueLabel = document.createElement('div');
+  critiqueLabel.className = 'message-label';
+  critiqueLabel.textContent = 'Self-Critique';
+
+  const critiqueMsg = document.createElement('div');
+  critiqueMsg.className = 'message message-critique';
+  critiqueMsg.appendChild(critiqueLabel);
+  const critiqueContent = document.createElement('div');
+  critiqueMsg.appendChild(critiqueContent);
+
+  const typing = createTypingIndicator();
+  critiqueContent.appendChild(typing);
+
+  group.appendChild(critiqueMsg);
+  // Hide the challenge button
+  btn.parentElement.style.display = 'none';
+  scrollToBottom();
+
+  try {
+    const critiqueSystemMsg = {
+      role: 'system',
+      content: `You are a rigorous but encouraging critical thinking mentor. An AI produced a response to a student's question. Your job is to first acknowledge what the response does well, then systematically dismantle its weaknesses — so the student learns to appreciate good reasoning AND spot bad reasoning in the same answer.
+
+Structure your critique in exactly two sections:
+
+## WHAT THIS RESPONSE GETS RIGHT
+In 1-3 sentences, identify what the response genuinely does well. Be specific — name the particular strength (e.g., "It correctly identifies X" or "The structure makes it easy to compare both sides"). This must be honest, not a token compliment. If the response is truly poor, say what it *attempted* to do well even if it fell short.
+
+## HERE'S THE PROBLEM
+Now apply rigorous scrutiny:
+
+1. UNSUPPORTED CLAIMS: Quote specific statements and flag them as lacking evidence. Don't accept "studies show" or "some argue" — demand which studies, who argues this, and what data supports it.
+
+2. HIDDEN BIAS: If the response claims neutrality, test it. Count arguments per side, flag asymmetric framing, and identify weasel words that subtly steer the reader.
+
+3. WEAKEST POINT: Identify the single least defensible claim and explain exactly why it fails.
+
+4. WHAT'S MISSING: Name specific perspectives, data, or contexts that are absent — not just "other viewpoints exist" but which ones and why they matter.
+
+5. BETTER FRAMING: Suggest a more productive way to think about the topic. What question should the student ACTUALLY be asking?
+
+## YOUR NEXT STEPS
+End with 2-3 specific, researchable questions the student should investigate to go deeper than this AI response.
+
+Be direct and confident in your critique. Use plain language. Say what IS wrong, not what "could be improved." But maintain the tone of a mentor who believes the student is capable of thinking harder — you're pushing them up, not putting them down.
+
+Keep your critique to 250-350 words.`
+    };
+
+    const critiqueMessages = [
+      critiqueSystemMsg,
+      {
+        role: 'user',
+        content: `Original question: "${originalQuestion}"\n\nAI response to critique:\n"${aiResponse}"\n\nFirst acknowledge what this response does well, then rigorously challenge its weaknesses.`
+      }
+    ];
+
+    const critique = await callOpenAI(critiqueMessages);
+    typing.remove();
+    critiqueContent.textContent = critique;
+
+  } catch (err) {
+    typing.remove();
+    critiqueContent.textContent = `Error generating critique: ${err.message}`;
+    critiqueContent.style.color = 'var(--challenge)';
+    btn.parentElement.style.display = 'flex';
+    btn.disabled = false;
+    btn.innerHTML = `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      Challenge Myself
+    `;
+  }
+
+  isLoading = false;
+  sendBtn.disabled = false;
+  scrollToBottom();
+}
+</script>
+
+</body>
+</html>
