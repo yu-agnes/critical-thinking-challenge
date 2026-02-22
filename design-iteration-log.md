@@ -167,10 +167,10 @@ The critique identified five issues: oversimplification of deterrence, missing r
 - Notes that life imprisonment also prevents reoffending (a genuine logical gap)
 
 **Weaknesses:**
-- **Hedged language throughout.** "The AI should acknowledge," "it would be helpful to," "could enrich the discussion." Reads like a peer review suggesting revisions, not a challenge.
-- **Doesn't quote specific claims.** References arguments in general terms without isolating the actual problematic phrasing.
-- **Generic follow-up questions.** "What evidence supports the claims?" is too broad to act on.
-- **Doesn't catch the asymmetric framing** (3 arguments for, 4-5 against — the response subtly leans one way while claiming neutrality).
+- **The language is too soft to function as a real challenge.** The critique uses phrases like "The AI should acknowledge," "it would be helpful to," and "could enrich the discussion." This reads like a polite peer review suggesting minor revisions — not a direct challenge that forces students to rethink what they just read. A student finishes reading this and thinks "okay, so the answer was mostly fine."
+- **It talks about problems in general terms instead of pointing to specific sentences.** For example, the critique says the deterrence argument is oversimplified, but it never quotes the AI's actual wording ("Some believe that the death penalty deters serious crimes") to show where exactly the reasoning fails. Without pinpointing the problematic text, students don't learn how to identify weak claims on their own.
+- **It completely misses the most obvious flaw: the response is not actually balanced.** The AI presents 3 arguments for and 4-5 arguments against the death penalty, while claiming to show "both sides." A good critique should catch this asymmetry immediately — the response is subtly leaning one direction while pretending to be neutral. V1 doesn't notice this at all.
+- **The follow-up questions are too vague to be useful.** Questions like "What evidence supports the claims?" could apply to literally any topic. They don't give the student a concrete next step.
 - **No overall verdict.** The student finishes reading and thinks "okay, so the answer was decent but incomplete" — not a strong critical thinking takeaway.
 
 ### Key Insight
@@ -436,14 +436,3 @@ V3 is the most effective version for teaching critical thinking, for three reaso
 2. **It creates productive discomfort without triggering defensiveness.** The "yes, and here's the problem" pattern validates the student's initial understanding before challenging it. A student who feels their comprehension was acknowledged is more willing to engage with subsequent critique. This mirrors established feedback frameworks like "commend-recommend" in education research.
 
 3. **It gives students concrete next steps.** Each critique ends with specific, researchable questions — not abstract encouragement to "think harder" but actual directions for independent investigation.
-
-### The Iteration Story
-
-The three versions demonstrate an iterative prompt engineering methodology:
-
-- **V1** proved the concept works but revealed that gentle, unstructured prompts produce gentle, forgettable output
-- **V2** proved that operationalized prompts (telling the model *how* to critique, not just *what* to look for) produce substantively better analysis — but at the cost of pedagogical warmth
-- **V3** synthesized V2's analytical rigor with a structure grounded in how effective teaching works — acknowledge competence, then challenge, then direct next steps
-
-Each version was informed by evaluating the previous version's output against specific criteria, which is itself a form of the critical thinking process the tool is designed to teach.
-
