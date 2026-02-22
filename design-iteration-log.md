@@ -48,7 +48,7 @@ Browser (index.html)
         OpenAI REST API (direct fetch)
 ```
 
-**Why this choice:** Zero setup friction. No Node.js, no `npm install`, no build step. The file can be opened by double-clicking it. For a research prototype, the idea should be immediately demonstrable.
+**Why this choice:** Zero setup friction. No Node.js, no `npm install`, no build step. The file can be opened by double-clicking it. 
 
 **No frameworks used** — no React, no LangChain, no libraries. Just vanilla HTML/CSS/JS and the browser's built-in `fetch()` API. LangChain would add complexity without benefit here since we're making straightforward API calls with static prompts.
 
@@ -93,7 +93,6 @@ Each question-challenge cycle makes two independent API calls:
 
 - **`temperature: 0.7`** — moderate temperature balances coherent critique with enough variation to surface different issues across runs
 - **API key in `sessionStorage`** — cleared when the browser tab closes, avoiding persisting credentials on disk
-- **Visual hierarchy through color coding** — indigo for user messages, light blue for AI responses, red for critiques (signals "caution, examine this")
 - **Button disappears after use** — prevents generating multiple critiques of the same response, keeping the flow linear
 
 ---
@@ -448,14 +447,3 @@ The three versions demonstrate an iterative prompt engineering methodology:
 
 Each version was informed by evaluating the previous version's output against specific criteria, which is itself a form of the critical thinking process the tool is designed to teach.
 
-### File Reference
-
-| File | Version | Description |
-|------|---------|-------------|
-| `index-v1.html` | V1 | Gentle critique — "here's how it could be improved" |
-| `index-v2.html` | V2 | Adversarial critique — "here's what's wrong with it" |
-| `index.html` | V3 | Mentor critique — "here's what's good, here's what's wrong, here's what to do next" |
-
----
-
-*Document generated from the iterative design process of the "Challenge Myself" critical thinking prototype.*
